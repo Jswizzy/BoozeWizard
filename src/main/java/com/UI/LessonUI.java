@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 @Theme("valo")
 public class LessonUI extends UI {
 
+    @Autowired
     private final LessonRepository repo;
 
     private final LessonEditor editor;

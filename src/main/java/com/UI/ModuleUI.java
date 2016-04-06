@@ -15,8 +15,10 @@ import org.springframework.util.StringUtils;
 @Theme("valo")
 public class ModuleUI extends UI {
 
+    @Autowired
     private final ModuleRepository repo;
 
+    @Autowired
     private final ModuleEditor editor;
 
     private final Grid grid;

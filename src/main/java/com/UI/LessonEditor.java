@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UIScope
 public class LessonEditor extends VerticalLayout {
 
+    @Autowired
     private final LessonRepository repository;
 
     /**

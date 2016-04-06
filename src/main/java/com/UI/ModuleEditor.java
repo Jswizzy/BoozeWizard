@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @UIScope
 public class ModuleEditor extends VerticalLayout {
 
+    @Autowired
     private final ModuleRepository repository;
 
     /**

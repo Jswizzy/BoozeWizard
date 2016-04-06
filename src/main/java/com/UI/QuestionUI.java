@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 @Theme("valo")
 public class QuestionUI extends UI {
 
+    @Autowired
     private final QuestionRepository repo;
 
     private final QuestionEditor editor;
