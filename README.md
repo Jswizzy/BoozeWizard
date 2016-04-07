@@ -5,6 +5,10 @@ Creates modules
 
 Provides for HATEOAS restful interface
 
+to run navigate to target directory and type the following at the commandline:
+
+    java -jar wizard-0.0.1-SNAPSHOT.jar
+
 usage: 
 
   type in console, while server is running to display rest interface:
