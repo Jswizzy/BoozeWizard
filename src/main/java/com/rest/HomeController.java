@@ -6,10 +6,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HelloController {
+public class HomeController {
+
+    @RequestMapping(value = "/")
+    public String index() {
+        return "index";
+    }
 
     @RequestMapping("/hello")
-    public String index() {
+    public String hello() {
         return "Greetings from Spring Boot!";
     }
 
