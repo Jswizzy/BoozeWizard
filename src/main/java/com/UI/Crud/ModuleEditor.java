@@ -1,13 +1,16 @@
-package com.UI;
+package com.UI.Crud;
 
-import com.model.Question;
-import com.model.QuestionRepository;
+import com.model.Module;
+import com.model.ModuleRepository;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.CssLayout;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,24 +25,19 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @SpringComponent
 @UIScope
-    public class QuestionEditor extends VerticalLayout {
+public class ModuleEditor extends VerticalLayout {
 
     @Autowired
-    private final QuestionRepository repository;
+    private final ModuleRepository repository;
 
     /**
-     * The currently edited question
+     * The currently edited module
      */
-    private Question question;
+    private Module module;
 
     /* Fields to edit properties in Customer entity */
-    TextField question_text = new TextField("question");
-    TextField answer = new TextField("answer");
-    TextField a = new TextField("choice 1");
-    TextField b = new TextField("choice 2");
-    TextField c = new TextField("choice 3");
-    TextField d = new TextField("choice 4");
-    TextField lessonId = new TextField("lesson id");
+    TextField name = new TextField("module name");
+    TextField description = new TextField("description");
 
     /* Action buttons */
     Button save = new Button("Save", FontAwesome.SAVE);
@@ -48,17 +46,10 @@ import org.springframework.beans.factory.annotation.Autowired;
     CssLayout actions = new CssLayout(save, cancel, delete);
 
     @Autowired
-    public QuestionEditor(QuestionRepository repository) {
+    public ModuleEditor(ModuleRepository repository) {
         this.repository = repository;
 
-        HorizontalLayout inputs1 = new HorizontalLayout(answer, question_text);
-        HorizontalLayout inputs2 = new HorizontalLayout(a, b, c, d);
-        inputs1.setWidth(425, Unit.PIXELS);
-        inputs2.setSpacing(true);
-        inputs2.setWidth(850, Unit.PIXELS);
-        inputs2.setSpacing(true);
-
-        addComponents(inputs1, inputs2, lessonId, actions);
+        addComponents(name, description, actions);
 
         // Configure and style components
         setSpacing(true);
@@ -67,9 +58,9 @@ import org.springframework.beans.factory.annotation.Autowired;
         save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         // wire action buttons to save, delete and reset
-        save.addClickListener(e -> repository.save(question));
-        delete.addClickListener(e -> repository.delete(question));
-        cancel.addClickListener(e -> editQuestion(question));
+        save.addClickListener(e -> repository.save(module));
+        delete.addClickListener(e -> repository.delete(module));
+        cancel.addClickListener(e -> editModule(module));
         setVisible(false);
     }
 
@@ -78,27 +69,27 @@ import org.springframework.beans.factory.annotation.Autowired;
         void onChange();
     }
 
-    public final void editQuestion(Question c) {
+    public final void editModule(Module c) {
         final boolean persisted = c.getId() != null;
         if (persisted) {
             // Find fresh entity for editing
-            question = repository.findOne(c.getId());
+            module = repository.findOne(c.getId());
         } else {
-            question = c;
+            module = c;
         }
         cancel.setVisible(persisted);
 
-        // Bind question properties to similarly named fields
+        // Bind module properties to similarly named fields
         // Could also use annotation or "manual binding" or programmatically
         // moving values from fields to entities before saving
-        BeanFieldGroup.bindFieldsUnbuffered(question, this);
+        BeanFieldGroup.bindFieldsUnbuffered(module, this);
 
         setVisible(true);
 
         // A hack to ensure the whole form is visible
         save.focus();
         // Select all text in firstName field automatically
-        question_text.selectAll();
+        name.selectAll();
     }
 
     public void setChangeHandler(ChangeHandler h) {

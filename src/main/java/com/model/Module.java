@@ -1,9 +1,5 @@
 package com.model;
 
-import org.joda.time.DateTime;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -20,11 +16,11 @@ public class Module {
 
     private String description;
 
-    @CreatedDate
-    private DateTime createdDate = new DateTime();
-
-    @LastModifiedDate
-    private DateTime updatedDate;
+//    @CreatedDate
+//    private DateTime createdDate = new DateTime();
+//
+//    @LastModifiedDate
+//    private DateTime updatedDate;
 
 //    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, targetEntity = Lesson.class)
 //    private Set<Lesson> lessons = new HashSet<>();
@@ -71,31 +67,12 @@ public class Module {
 //        this.lessons = lessons;
 //    }
 
-
-    public DateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(DateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public DateTime getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(DateTime updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
     @Override
     public String toString() {
         return "Module{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", createdDate=" + createdDate +
-                ", updatedDate=" + updatedDate +
                 '}';
     }
 }

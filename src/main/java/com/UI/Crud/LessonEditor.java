@@ -1,16 +1,13 @@
-package com.UI;
+package com.UI.Crud;
 
-import com.model.Module;
-import com.model.ModuleRepository;
+import com.model.Lesson;
+import com.model.LessonRepository;
 import com.vaadin.data.fieldgroup.BeanFieldGroup;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.spring.annotation.SpringComponent;
 import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.CssLayout;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,19 +22,21 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 @SpringComponent
 @UIScope
-public class ModuleEditor extends VerticalLayout {
+public class LessonEditor extends VerticalLayout {
 
     @Autowired
-    private final ModuleRepository repository;
+    private final LessonRepository repository;
 
     /**
-     * The currently edited module
+     * The currently edited lesson
      */
-    private Module module;
+    private Lesson lesson;
 
     /* Fields to edit properties in Customer entity */
-    TextField name = new TextField("module name");
+    TextField name = new TextField("lesson name");
     TextField description = new TextField("description");
+    TextField moduleId = new TextField("module id");
+    TextField lessonvid = new TextField("lesson vid");
 
     /* Action buttons */
     Button save = new Button("Save", FontAwesome.SAVE);
@@ -46,10 +45,19 @@ public class ModuleEditor extends VerticalLayout {
     CssLayout actions = new CssLayout(save, cancel, delete);
 
     @Autowired
-    public ModuleEditor(ModuleRepository repository) {
+    public LessonEditor(LessonRepository repository) {
         this.repository = repository;
 
-        addComponents(name, description, actions);
+        VerticalLayout inputs1 = new VerticalLayout(name, description);
+        inputs1.setSpacing(true);
+        //inputs1.setMargin(true);
+        VerticalLayout inputs2 = new VerticalLayout(moduleId, lessonvid);
+        inputs2.setSpacing(true);
+        //inputs2.setMargin(true);
+        HorizontalLayout inputs = new HorizontalLayout(inputs1, inputs2);
+        inputs.setSpacing(true);
+
+        addComponents(inputs, actions);
 
         // Configure and style components
         setSpacing(true);
@@ -58,9 +66,9 @@ public class ModuleEditor extends VerticalLayout {
         save.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
         // wire action buttons to save, delete and reset
-        save.addClickListener(e -> repository.save(module));
-        delete.addClickListener(e -> repository.delete(module));
-        cancel.addClickListener(e -> editModule(module));
+        save.addClickListener(e -> repository.save(lesson));
+        delete.addClickListener(e -> repository.delete(lesson));
+        cancel.addClickListener(e -> editLesson(lesson));
         setVisible(false);
     }
 
@@ -69,20 +77,20 @@ public class ModuleEditor extends VerticalLayout {
         void onChange();
     }
 
-    public final void editModule(Module c) {
+    public final void editLesson(Lesson c) {
         final boolean persisted = c.getId() != null;
         if (persisted) {
             // Find fresh entity for editing
-            module = repository.findOne(c.getId());
+            lesson = repository.findOne(c.getId());
         } else {
-            module = c;
+            lesson = c;
         }
         cancel.setVisible(persisted);
 
-        // Bind module properties to similarly named fields
+        // Bind lesson properties to similarly named fields
         // Could also use annotation or "manual binding" or programmatically
         // moving values from fields to entities before saving
-        BeanFieldGroup.bindFieldsUnbuffered(module, this);
+        BeanFieldGroup.bindFieldsUnbuffered(lesson, this);
 
         setVisible(true);
 

@@ -1,7 +1,7 @@
-package com.UI;
+package com.UI.Crud;
 
-import com.model.Question;
-import com.model.QuestionRepository;
+import com.model.Lesson;
+import com.model.LessonRepository;
 import com.vaadin.annotations.Theme;
 import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.server.FontAwesome;
@@ -11,14 +11,14 @@ import com.vaadin.ui.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
-@SpringUI(path = "question")
+@SpringUI(path = "lesson")
 @Theme("valo")
-public class QuestionUI extends UI {
+public class LessonUI extends UI {
 
     @Autowired
-    private final QuestionRepository repo;
+    private final LessonRepository repo;
 
-    private final QuestionEditor editor;
+    private final LessonEditor editor;
 
     private final Grid grid;
 
@@ -27,12 +27,12 @@ public class QuestionUI extends UI {
     private final Button addNewBtn;
 
     @Autowired
-    public QuestionUI(QuestionRepository repo, QuestionEditor editor) {
+    public LessonUI(LessonRepository repo, LessonEditor editor) {
         this.repo = repo;
         this.editor = editor;
         this.grid = new Grid();
         this.filter = new TextField();
-        this.addNewBtn = new Button("New question", FontAwesome.PLUS);
+        this.addNewBtn = new Button("New lesson", FontAwesome.PLUS);
     }
 
     @Override
@@ -48,16 +48,15 @@ public class QuestionUI extends UI {
         mainLayout.setSpacing(true);
 
         //grid.setHeight(300, Unit.PIXELS);
-        //grid.setWidth(850, Unit.PIXELS);
         grid.setSizeFull();
-        grid.setColumns("id", "question_text", "answer", "a", "b", "c", "d", "lessonId");
+        grid.setColumns("id", "name", "description", "lessonvid", "moduleId");
 
-        filter.setInputPrompt("Filter by answer");
+        filter.setInputPrompt("Filter by name");
 
         // Hook logic to components
 
         // Replace listing with filtered content when user changes filter
-        filter.addTextChangeListener(e -> listQuestions(e.getText()));
+        filter.addTextChangeListener(e -> listLessons(e.getText()));
 
         // Connect selected Customer to editor or hide if none is selected
         grid.addSelectionListener(e -> {
@@ -65,34 +64,34 @@ public class QuestionUI extends UI {
                 editor.setVisible(false);
             }
             else {
-                editor.editQuestion((Question) grid.getSelectedRow());
+                editor.editLesson((Lesson) grid.getSelectedRow());
             }
         });
 
         // Instantiate and edit new Customer the new button is clicked
-        addNewBtn.addClickListener(e -> editor.editQuestion(new Question("", 0L, "", "", "", "", 0L)));
+        addNewBtn.addClickListener(e -> editor.editLesson(new Lesson("", "", 0L, "", 0L)));
 
         // Listen changes made by the editor, refresh data from backend
         editor.setChangeHandler(() -> {
             editor.setVisible(false);
-            listQuestions(filter.getValue());
+            listLessons(filter.getValue());
         });
 
         // Initialize listing
-        listQuestions(null);
+        listLessons(null);
     }
 
-    // tag::listQuestions[]
-    private void listQuestions(String text) {
+    // tag::listLessons[]
+    private void listLessons(String text) {
         if (StringUtils.isEmpty(text)) {
             grid.setContainerDataSource(
-                    new BeanItemContainer(Question.class, repo.findAll()));
+                    new BeanItemContainer(Lesson.class, repo.findAll()));
         }
         else {
-//            grid.setContainerDataSource(new BeanItemContainer(Question.class,
-//                    repo.findByQuestion_text(text)));
+            grid.setContainerDataSource(new BeanItemContainer(Lesson.class,
+                    repo.findByNameStartsWithIgnoreCase(text)));
         }
     }
-    // end::listQuestions[]
+    // end::listLessons[]
 
 }

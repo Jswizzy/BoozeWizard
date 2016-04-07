@@ -1,4 +1,4 @@
-package com.UI;
+package com.UI.Crud;
 
 import com.model.Module;
 import com.model.ModuleRepository;
