@@ -7,11 +7,9 @@ Provides for HATEOAS restful interface
 
 usage: 
 
-  type:
+  type in console, while server is running to display rest interface:
 
     curl localhost:8080/api
-    
-  in console to while server is running to display rest interface. 
   
   see this page for examples of other commands: https://spring.io/guides/gs/accessing-data-rest/
   
