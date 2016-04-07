@@ -31,7 +31,7 @@ public class User {
     public User(String name, String password, String... roles) {
         this.roles = roles;
         this.name = name;
-        this.password = password;
+        this.setPassword(password);
     }
 
     public void setPassword(String password) {

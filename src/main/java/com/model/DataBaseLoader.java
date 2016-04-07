@@ -15,10 +15,10 @@ public class DataBaseLoader implements CommandLineRunner{
 
     @Autowired
     public DataBaseLoader(
-            UserRepository userRepository,
             ModuleRepository moduleRepository,
             LessonRepository lessonRepository,
             QuestionRepository questionRepository,
+            UserRepository userRepository,
             ScoreRepository scoreRepository
     ) {
         this.userRepository = userRepository;
