@@ -33,6 +33,20 @@ public class DataBaseLoader implements CommandLineRunner{
         this.userRepository.save(new User("Frodo", "Baggins", "ADMIN"));
         this.userRepository.save(new User("Frodo", "Baggins", "USER"));
 
+        Module ftn = this.moduleRepository.save(
+                new Module("Navy Skills 4 Life", "From Seaman to Skaters mate first class in 90 days"));
+
+        Module win = this.moduleRepository.save(
+                new Module("Two and a half Men", "Winning!"));
+
+        Lesson fire = this.lessonRepository.save(
+                new Lesson("Starting a fire", "We didn't start the fire", "but it keeps on burning", ftn));
+
+        Lesson hope = this.lessonRepository.save(
+                new Lesson("Hoping", "We didn't start the fire", "na na nah", ftn));
+
+        Question question1 = this.questionRepository.save(
+                new Question("How Now Brown Cow", 1L, "one", "two", "three", "four", fire));
 
     }
 }

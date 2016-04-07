@@ -70,7 +70,7 @@ public class QuestionUI extends UI {
         });
 
         // Instantiate and edit new Customer the new button is clicked
-        addNewBtn.addClickListener(e -> editor.editQuestion(new Question("", 0L, "", "", "", "", 0L)));
+        addNewBtn.addClickListener(e -> editor.editQuestion(new Question("", 0L, "", "", "", "", null)));
 
         // Listen changes made by the editor, refresh data from backend
         editor.setChangeHandler(() -> {
